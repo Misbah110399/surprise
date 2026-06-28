@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>For Someone Special ❤️</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+
+background:linear-gradient(-45deg,#ff758c,#ff7eb3,#ff5f6d,#ffc371);
+background-size:400% 400%;
+animation:bg 12s ease infinite;
+
+}
+
+@keyframes bg{
+
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+
+}
+
+.container{
+
+width:90%;
+max-width:700px;
+
+background:rgba(255,255,255,.15);
+
+backdrop-filter:blur(18px);
+
+padding:45px;
+
+border-radius:25px;
+
+text-align:center;
+
+color:white;
+
+box-shadow:0 15px 40px rgba(0,0,0,.25);
+
+position:relative;
+
+z-index:2;
+
+}
+
+h1{
+
+font-size:34px;
+margin-bottom:35px;
+
+}
+
+.question{
+
+font-size:28px;
+margin-bottom:35px;
+min-height:70px;
+
+}
+
+.buttons{
+
+display:flex;
+justify-content:center;
+gap:25px;
+flex-wrap:wrap;
+
+}
+
+button{
+
+padding:15px 35px;
+font-size:20px;
+border:none;
+border-radius:50px;
+cursor:pointer;
+transition:.25s;
+font-weight:bold;
+
+}
+
+.yes{
+
+background:#00d26a;
+color:white;
+
+}
+
+.no{
+
+background:white;
+color:#ff3d6e;
+
+}
+
+button:hover{
+
+transform:scale(1.08);
+
+}
+
+#final{
+
+display:none;
+
+}
+
+#message{
+
+font-size:28px;
+line-height:1.6;
+
+}
+
+canvas{
+
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
+
+}
+
+.heart{
+
+position:absolute;
+color:white;
+font-size:22px;
+animation:float 8s linear infinite;
+opacity:.7;
+
+}
+
+@keyframes float{
+
+0%{
+transform:translateY(100vh) rotate(0deg);
+opacity:0;
+}
+
+30%{
+opacity:1;
+}
+
+100%{
+transform:translateY(-120vh) rotate(360deg);
+opacity:0;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="container">
+
+<div id="quiz">
+
+<h1>❤️ Just Four Questions ❤️</h1>
+
+<div class="question" id="question"></div>
+
+<div class="buttons">
+
+<button class="yes" onclick="yesClick()">Yes ❤️</button>
+
+<button class="no" id="noBtn" onclick="noClick()">No 🙈</button>
+
+</div>
+
+</div>
+
+<div id="final">
+
+<h1>❤️ You Made My Day ❤️</h1>
+
+<div id="message">
+
+Thank you for saying YES! 🥹❤️
+
+<br><br>
+
+Every conversation with you makes my day brighter.
+
+Every smile of yours becomes my favorite memory.
+
+I honestly can't wait to spend Valentine's Day with you.
+
+🌹
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const questions=[
+
+"Do you think about me as much as I think about you? ❤️",
+
+"Am I your favorite person? 😊",
+
+"Are you in love with me? ❤️",
+
+"Will you be my Valentine next year?<br><small>February 14 ❤️</small>"
+
+];
+
+let current=0;
+
+const q=document.getElementById("question");
+
+const no=document.getElementById("noBtn");
+
+function show(){
+
+q.innerHTML=questions[current];
+
+if(current==3){
+
+no.innerHTML="No 😅";
+
+}else{
+
+no.style.position="static";
+
+no.innerHTML="No";
+
+}
+
+}
+
+show();
+
+function yesClick(){
+
+if(current<3){
+
+current++;
+
+show();
+
+}else{
+
+document.getElementById("quiz").style.display="none";
+
+document.getElementById("final").style.display="block";
+
+confettiBurst();
+
+}
+
+}
+
+function noClick(){
+
+if(current<3){
+
+alert("Aww 🥺 Honest answer accepted ❤️");
+
+current++;
+
+show();
+
+}
+
+}
+
+document.addEventListener("mousemove",function(e){
+
+if(current!=3)return;
+
+const rect=no.getBoundingClientRect();
+
+const dx=e.clientX-(rect.left+rect.width/2);
+
+const dy=e.clientY-(rect.top+rect.height/2);
+
+const distance=Math.sqrt(dx*dx+dy*dy);
+
+if(distance<150){
+
+moveButton();
+
+}
+
+});
+
+function moveButton(){
+
+const w=window.innerWidth-120;
+
+const h=window.innerHeight-80;
+
+no.style.position="fixed";
+
+no.style.left=Math.random()*w+"px";
+
+no.style.top=Math.random()*h+"px";
+
+const texts=[
+
+"Nice Try 😜",
+
+"Think Again ❤️",
+
+"Impossible 😂",
+
+"Catch Me 😆",
+
+"Click YES 😌",
+
+"Not Today 😘"
+
+];
+
+no.innerHTML=texts[Math.floor(Math.random()*texts.length)];
+
+}
+
+for(let i=0;i<35;i++){
+
+const heart=document.createElement("div");
+
+heart.className="heart";
+
+heart.innerHTML="❤";
+
+heart.style.left=Math.random()*100+"%";
+
+heart.style.animationDelay=Math.random()*8+"s";
+
+heart.style.fontSize=(18+Math.random()*25)+"px";
+
+document.body.appendChild(heart);
+
+}
+
+const canvas=document.getElementById("confetti");
+
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+
+canvas.height=window.innerHeight;
+
+let pieces=[];
+
+function confettiBurst(){
+
+for(let i=0;i<300;i++){
+
+pieces.push({
+
+x:window.innerWidth/2,
+
+y:window.innerHeight/2,
+
+vx:(Math.random()-.5)*12,
+
+vy:(Math.random()-.5)*12,
+
+size:Math.random()*8+4,
+
+life:150
+
+});
+
+}
+
+animate();
+
+}
+
+function animate(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+pieces.forEach((p)=>{
+
+ctx.fillStyle=`hsl(${Math.random()*360},100%,60%)`;
+
+ctx.fillRect(p.x,p.y,p.size,p.size);
+
+p.x+=p.vx;
+
+p.y+=p.vy;
+
+p.vy+=0.08;
+
+p.life--;
+
+});
+
+pieces=pieces.filter(p=>p.life>0);
+
+if(pieces.length){
+
+requestAnimationFrame(animate);
+
+}
+
+}
+
+window.onresize=function(){
+
+canvas.width=window.innerWidth;
+
+canvas.height=window.innerHeight;
+
+}
+
+</script>
+
+</body>
+</html>
